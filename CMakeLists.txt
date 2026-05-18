@@ -37,33 +37,6 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-app-1.0 gstreamer-video-1.0 gstreamer-pbutils-1.0)
 pkg_check_modules(LIBLO REQUIRED liblo)
 
-# ---------------------------------------------------------
-# Restore missing Qt Solutions assets (The Proper Fix)
-# ---------------------------------------------------------
-file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/src/gui/contrib/qtpropertybrowser/src/images")
-
-# The official archived Qt Solutions upstream repository
-set(QT_UPSTREAM_URL "https://raw.githubusercontent.com/qtproject/qt-solutions/master/qtpropertybrowser/src/images")
-
-set(MISSING_CURSORS
-    cursor-sizeb.png cursor-sizef.png cursor-sizeall.png
-    cursor-sizeh.png cursor-sizev.png cursor-closedhand.png
-    cursor-busy.png cursor-crosshair.png cursor-forbidden.png
-    cursor-hand.png cursor-hsplit.png cursor-vsplit.png
-    cursor-ibeam.png cursor-openhand.png cursor-up.png
-    cursor-wait.png cursor-whatsthis.png cursor-arrow.png
-    cursor-uparrow.png
-)
-
-foreach(CURSOR_FILE ${MISSING_CURSORS})
-    set(LOCAL_FILE "${CMAKE_SOURCE_DIR}/src/gui/contrib/qtpropertybrowser/src/images/${CURSOR_FILE}")
-    # Only download if we don't already have it
-    if(NOT EXISTS "${LOCAL_FILE}")
-        message(STATUS "Restoring authentic asset from Qt upstream: ${CURSOR_FILE}")
-        file(DOWNLOAD "${QT_UPSTREAM_URL}/${CURSOR_FILE}" "${LOCAL_FILE}" STATUS DOWNLOAD_STATUS)
-    endif()
-endforeach()
-
 # Gather source and resource files
 file(GLOB_RECURSE SRC_FILES "src/*.cpp" "src/*.h")
 list(FILTER SRC_FILES EXCLUDE REGEX "src/gui/contrib/qtpropertybrowser/examples/.*")
