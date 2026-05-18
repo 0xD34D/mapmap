@@ -30,6 +30,11 @@ static void set_env_vars_if_needed()
       std::cout << " * GST_DEBUG=2" << std::endl;
   //setenv("LANG", "C", 1);
 #endif // __MACOSX_CORE__
+#ifdef __linux__
+  std::cout << "Linux detected. Set environment to Force X11/XWayland backend." << std::endl;
+  if (0 == setenv("QT_QPA_PLATFORM", "xcb", 1))
+      std::cout << " * QT_QPA_PLATFORM=xcb" << std::endl;
+#endif // __linux__
 }
 
 // This class is just used to provide sleep functionalities in the main() method.
