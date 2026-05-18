@@ -12,6 +12,7 @@ set(CMAKE_AUTORCC ON)
 
 # Locate Qt5 Modules (WebEngine explicitly excluded)
 find_package(Qt5 COMPONENTS Core Gui Widgets Multimedia OpenGL Network Xml REQUIRED)
+find_package(OpenGL REQUIRED)
 
 # ---------------------------------------------------------
 # Compile Translations (Must run BEFORE AutoRCC processes them)
@@ -33,7 +34,7 @@ endif()
 
 # Locate System Dependencies via pkg-config
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-app-1.0 gstreamer-video-1.0)
+pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-app-1.0 gstreamer-video-1.0 gstreamer-pbutils-1.0)
 pkg_check_modules(LIBLO REQUIRED liblo)
 
 # ---------------------------------------------------------
@@ -82,10 +83,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     "src"
     "src/app"
     "src/control"
+    "src/control/qosc" # Required for oscreceiver.h
     "src/core"
     "src/gui"
-    "src/gui/contrib/qosc" # Required for oscreceiver.h
+    "src/gui/contrib/qtpropertybrowser/src"
+    "src/gui/contrib/qtpropertybrowser-extension"
     "src/media"
+    "src/shape"
     "src/util"
 )
 
@@ -97,6 +101,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt5::OpenGL 
     Qt5::Network 
     Qt5::Xml
+    OpenGL::GL
     ${GST_LIBRARIES}
     ${LIBLO_LIBRARIES}
 )

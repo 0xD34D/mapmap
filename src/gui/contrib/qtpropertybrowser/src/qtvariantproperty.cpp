@@ -43,6 +43,13 @@
 #include "qtpropertymanager.h"
 #include "qteditorfactory.h"
 #include <QVariant>
+#define qVariantValue qvariant_cast
+
+template <class T>
+inline QList<T> qFindChildren(const QObject *o, const QString &name = QString())
+{
+    return o->findChildren<T>(name);
+}
 #include <QIcon>
 #include <QDate>
 #include <QLocale>
