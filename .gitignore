@@ -12,7 +12,7 @@ Release/
 *.pc
 .deps
 .libs
-
+build/
 
 # Big files
 .*.swp
